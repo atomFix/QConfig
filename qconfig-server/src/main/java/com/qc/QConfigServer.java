@@ -11,6 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class QConfigServer
 {
+
+    /**
+     * 递归调用
+     * @param args
+     */
+
+
     public static void main( String[] args )
     {
         SpringApplication.run(QConfigServer.class, args);
