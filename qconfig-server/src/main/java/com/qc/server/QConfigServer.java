@@ -1,23 +1,19 @@
-package com.qc;
+package com.qc.server;
 
+import com.qc.common.QConfigCommentConfig;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-/**
- * Hello world!
- *
- */
 @SpringBootApplication
+@ComponentScan(basePackageClasses = {QConfigServer.class, QConfigCommentConfig.class})
 public class QConfigServer
 {
 
     /**
-     * 递归调用
-     * @param args
+     * 后台服务器
+     * @param args 参数
      */
-
-
     public static void main( String[] args )
     {
         SpringApplication.run(QConfigServer.class, args);
