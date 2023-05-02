@@ -2,20 +2,17 @@ server:
   port: 8080
 
 eureka:
-  client:
-    enabled: true
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:8080/eureka/
-    healthcheck:
-      enabled: true
-    eureka-service-url-poll-interval-seconds: 60
-    fetch-registry: false
-    register-with-eureka: false
   instance:
-    hostname: qconfig
+    hostname: QConfig
     prefer-ip-address: true
     health-check-url-path: /health
     status-page-url-path: /info
   server:
-    peer-eureka-status-refresh-time-interval-ms: 60000
+    peer-eureka-nodes-update-interval-ms: 60000
     enable-self-preservation: false
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone:
+    eureka-service-url-poll-interval-seconds: 60
