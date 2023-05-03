@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.qc</groupId>
-            <artifactId>qconfig-biz</artifactId>
+            <artifactId>qconfig-common</artifactId>
         </dependency>
     </dependencies>
 </project>

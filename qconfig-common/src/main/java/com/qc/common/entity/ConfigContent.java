@@ -10,4 +10,6 @@ public class ConfigContent {
     public static final String QCONFIG_CLUSTER = "qconfig.cluster";
 
     public static final String QCONFIG_SERVER_URL = "eureka.service.url";
+
+    public static final String SERVER_NAME = "qconfig-server";
 }

@@ -8,7 +8,7 @@ eureka:
     prefer-ip-address: true
     health-check-url-path: /health
     status-page-url-path: /info
-    appname: qconfig
+    appname: qconfig-server
   server:
     peer-eureka-nodes-update-interval-ms: 60000
     enable-self-preservation: false
