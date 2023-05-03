@@ -1,12 +1,14 @@
 server:
-  port: 8080
+  port: 8083
+
 
 eureka:
   instance:
-    hostname: QConfig
+    hostname: qconfig.com
     prefer-ip-address: true
     health-check-url-path: /health
     status-page-url-path: /info
+    appname: qconfig
   server:
     peer-eureka-nodes-update-interval-ms: 60000
     enable-self-preservation: false
@@ -14,5 +16,21 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone:
-    eureka-service-url-poll-interval-seconds: 60
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+    eureka-service-url-poll-interval-seconds: 10
+
+
+spring:
+  profiles:
+    include:
+      - db
+  application:
+    name: qconfig.server
+
+qconfig:
+  server:
+    enable: true
+    # 数据库eureka service url 刷新时间
+    refresh_interval: 60
+    auto_register: true
+

@@ -7,6 +7,7 @@ import org.apache.catalina.core.StandardContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.CollectionUtils;
 
@@ -22,7 +23,8 @@ import java.util.concurrent.*;
  */
 public abstract class RefreshableConfig {
 
-    private static final int CONFIG_REFRESH_INTERVAL = 60;
+    @Value("${qconfig.server.refresh_interval:60}")
+    private int configRefreshInterval;
     private static final Logger logger = LoggerFactory.getLogger(RefreshableConfig.class);
 
     protected abstract List<RefreshablePropertySource > getRefreshablePropertySources();
@@ -49,7 +51,7 @@ public abstract class RefreshableConfig {
             } catch (Exception e) {
                 logger.error("refresh config error", e);
             }
-        },  CONFIG_REFRESH_INTERVAL, CONFIG_REFRESH_INTERVAL, TimeUnit.SECONDS);
+        },  configRefreshInterval, configRefreshInterval, TimeUnit.SECONDS);
     }
 
     public Boolean getBoolean(String key, boolean defaultValue) {

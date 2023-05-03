@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://bj-cynosdbmysql-grp-exx4cq0g.sql.tencentcdb.com:29822/QConfig?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: lolxyzhs200..
+  jpa:
+    database: mysql
+    show-sql: true
+    properties:
+      hibernate:
+        # 格式化sql语句
+        format_sql: true

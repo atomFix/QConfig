@@ -1,6 +1,5 @@
 package com.qc.common.thread;
 
-import junit.framework.Test;
 
 import java.util.concurrent.ThreadFactory;
 

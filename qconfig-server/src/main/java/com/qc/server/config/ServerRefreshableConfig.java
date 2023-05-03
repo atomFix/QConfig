@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class ServerRefreshableConfig extends RefreshableConfig {
 
-    private static final Splitter  SPLITTER = Splitter.on(",").omitEmptyStrings().trimResults();
+    private static final Splitter SPLITTER = Splitter.on(",").omitEmptyStrings().trimResults();
 
     private final RefreshablePropertySource refreshablePropertySource;
 
