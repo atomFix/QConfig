@@ -45,6 +45,8 @@ public class EurekaServerDBAutoConfigure {
     @Value("${eureka.client.service-url.defaultZone}")
     public String serviceUrl;
 
+    public static final int INIT_VERSION = 0;
+
     @EventListener
     public void registerServerUrl(ApplicationReadyEvent event) {
         if (Strings.isNullOrEmpty(serviceUrl)) {
@@ -84,7 +86,7 @@ public class EurekaServerDBAutoConfigure {
             serverConfig.setKey(ConfigContent.QCONFIG_SERVER_URL);
             serverConfig.setCluster(ConfigContent.QCONFIG_CLUSTER);
             serverConfig.setValue(serviceUrl);
-            serverConfig.setVersion(0);
+            serverConfig.setVersion(INIT_VERSION);
             serverConfigRepository.save(serverConfig);
             return;
         }
