@@ -3,8 +3,8 @@ package com.qconfig.client.config;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.qc.common.entity.ServiceDTO;
-import com.qc.common.thread.QConfigThreadFactory;
+import com.qconfig.common.entity.ServiceDTO;
+import com.qconfig.common.thread.QConfigThreadFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,6 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @date: 2023/05/03/11:41
  */
 @Component
-@ConditionalOnProperty(name = "qconfig.client.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "qconfig.client.enable1", havingValue = "true", matchIfMissing = false)
 public class ConfigServerAddressSource {
 
     @Autowired

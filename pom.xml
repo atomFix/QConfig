@@ -18,6 +18,7 @@
         <module>qconfig-client</module>
         <module>qconfig-biz</module>
         <module>qconfig-common</module>
+        <module>qconfig-client-example</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -95,6 +96,11 @@
                 <groupId>com.qc</groupId>
                 <artifactId>qconfig-server</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>5.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
