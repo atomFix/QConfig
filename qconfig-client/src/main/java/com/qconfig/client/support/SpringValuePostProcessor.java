@@ -1,18 +1,19 @@
 package com.qconfig.client.support;
 
-import com.qconfig.client.property.PlaceholderHelper;
-import com.qconfig.client.property.SpringValue;
-import com.qconfig.client.property.SpringValueRegister;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import com.qconfig.client.property.*;
 import com.qconfig.client.util.SpringInjector;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
@@ -23,7 +24,9 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -41,19 +44,23 @@ public class SpringValuePostProcessor implements BeanPostProcessor, BeanFactoryP
 
     private SpringValueRegister springValueRegister;
 
+    private Multimap<String, SpringValueDefinition> beanName2SpringValueDefinitions;
+
+
+
     public SpringValuePostProcessor() {
         placeholderHelper = SpringInjector.getInstance(PlaceholderHelper.class);
         springValueRegister = SpringInjector.getInstance(SpringValueRegister.class);
+        beanName2SpringValueDefinitions = LinkedListMultimap.create();
     }
 
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Class<?> clazz = bean.getClass();
-
         processFields(bean, beanName, clazz);
         processMethods(bean, beanName, clazz);
-
+        processXmlProperty(bean, beanName, clazz);
         return bean;
     }
 
@@ -64,8 +71,10 @@ public class SpringValuePostProcessor implements BeanPostProcessor, BeanFactoryP
 
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        if (beanFactory instanceof BeanDefinitionRegistry) {
+            beanName2SpringValueDefinitions = SpringValueDefinitionProcessor.getSpringValueDefinitions((BeanDefinitionRegistry) beanFactory);
+        }
     }
 
     @Override
@@ -91,6 +100,25 @@ public class SpringValuePostProcessor implements BeanPostProcessor, BeanFactoryP
         ReflectionUtils.doWithMethods(clazz, methods::add);
         for (Method method : methods) {
             processMethod(bean, beanName, method);
+        }
+    }
+
+    private void processXmlProperty(Object bean, String beanName, Class<?> clazz) {
+        Collection<SpringValueDefinition> springValueDefinitions = beanName2SpringValueDefinitions.get(beanName);
+
+        if (CollectionUtils.isEmpty(springValueDefinitions)) {
+            return;
+        }
+
+        for (SpringValueDefinition springValueDefinition : springValueDefinitions) {
+            String property = springValueDefinition.getProperty();
+            Method writeMethod = Objects.requireNonNull(BeanUtils.getPropertyDescriptor(clazz, property)).getWriteMethod();
+            if (writeMethod == null) {
+                continue;
+            }
+
+            springValueRegister.register(beanFactory, springValueDefinition.getKey(),
+                    new SpringValue(bean, beanName, writeMethod, springValueDefinition.getKey(), springValueDefinition.getPlaceholder(), false));
         }
     }
 
@@ -122,9 +150,9 @@ public class SpringValuePostProcessor implements BeanPostProcessor, BeanFactoryP
         for (String key : keys) {
             SpringValue springValue;
             if (member instanceof Field) {
-                springValue = new SpringValue(bean, beanName, (Field) member, key, false);
+                springValue = new SpringValue(bean, beanName, (Field) member, key, value.value(), false);
             } else if (member instanceof Method) {
-                springValue = new SpringValue(bean, beanName, (Method) member, key, false);
+                springValue = new SpringValue(bean, beanName, (Method) member, key, value.value(), false);
             } else {
                 log.error("QConfig register has error! the target object's type is one error value! target class : {}", member.getClass());
                 return;

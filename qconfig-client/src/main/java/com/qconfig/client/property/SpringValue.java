@@ -35,25 +35,27 @@ public class SpringValue {
     private String placeholder;
 
 
-    public SpringValue(Object bean, String beanName, Field field, String key, boolean isJson) {
+    public SpringValue(Object bean, String beanName, Field field, String key, String placeholder, boolean isJson) {
         beanRef = new WeakReference<>(bean);
         this.beanName = beanName;
         this.isJson = isJson;
         this.field = field;
         this.targetType = field.getClass();
         this.key = key;
+        this.placeholder = placeholder;
         if (isJson) {
             genericType = field.getGenericType();
         }
     }
 
-    public SpringValue(Object bean, String beanName, Method method, String key, boolean isJson) {
+    public SpringValue(Object bean, String beanName, Method method, String key, String placeholder, boolean isJson) {
         beanRef = new WeakReference<>(bean);
         this.beanName = beanName;
         this.isJson = isJson;
         this.methodParameter = new MethodParameter(method, 0);
         this.targetType = method.getParameterTypes()[0];
         this.key = key;
+        this.placeholder = placeholder;
         if (isJson) {
             genericType = method.getGenericParameterTypes()[0];
         }
