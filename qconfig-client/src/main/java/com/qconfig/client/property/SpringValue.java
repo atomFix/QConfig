@@ -5,6 +5,7 @@ import org.springframework.core.MethodParameter;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
@@ -64,5 +65,44 @@ public class SpringValue {
     public boolean hasUsage() {
         return beanRef.get() != null;
     }
+
+
+    private boolean isFiled() {
+        return field != null;
+    }
+
+
+    public void update(Object newValue) throws IllegalAccessException, InvocationTargetException {
+        if (isFiled()) {
+            updateFiled(newValue);
+        } else {
+            updateMethod(newValue);
+        }
+    }
+
+
+    private void updateFiled(Object newValue) throws IllegalAccessException {
+        Object bean = beanRef.get();
+        if (bean == null) {
+            return;
+        }
+
+        boolean accessible = field.isAccessible();
+        field.setAccessible(true);
+        field.set(bean, newValue);
+        field.setAccessible(accessible);
+    }
+
+
+    private void updateMethod(Object newValue) throws InvocationTargetException, IllegalAccessException {
+        Object bean = beanRef.get();
+        if (bean == null) {
+            return;
+        }
+
+        methodParameter.getMethod().invoke(bean, newValue);
+    }
+
+
 
 }
