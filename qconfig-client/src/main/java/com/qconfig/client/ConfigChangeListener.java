@@ -1,5 +1,7 @@
 package com.qconfig.client;
 
+import com.qconfig.client.model.ConfigChangeEvent;
+
 /**
  * @Description:
  * @author: liukairong1
@@ -7,6 +9,6 @@ package com.qconfig.client;
  */
 public interface ConfigChangeListener {
 
-    void onChange();
+    void onChange(ConfigChangeEvent configChangeEvent);
 
 }

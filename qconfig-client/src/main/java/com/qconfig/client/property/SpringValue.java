@@ -67,7 +67,7 @@ public class SpringValue {
     }
 
 
-    private boolean isFiled() {
+    public boolean isFiled() {
         return field != null;
     }
 
@@ -103,6 +103,8 @@ public class SpringValue {
         methodParameter.getMethod().invoke(bean, newValue);
     }
 
-
+    public Type getGenericType() {
+        return genericType;
+    }
 
 }
