@@ -3,23 +3,19 @@ package com.qconfig.client.property;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.qconfig.client.ConfigChangeListener;
-import com.qconfig.client.model.ConfigChange;
 import com.qconfig.client.model.ConfigChangeEvent;
 import com.qconfig.client.util.SpringInjector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,11 +31,11 @@ public class AutoUpdateConfigChangeListener implements ApplicationContextAware, 
 
     private TypeConverter typeConverter;
 
-    private SpringValueRegister springValueRegister;
+    private final SpringValueRegister springValueRegister;
 
-    private PlaceholderHelper placeholderHelper;
+    private final PlaceholderHelper placeholderHelper;
 
-    private Gson GSON;
+    private final Gson GSON;
 
     public AutoUpdateConfigChangeListener() {
         this.springValueRegister = SpringInjector.getInstance(SpringValueRegister.class);
@@ -81,7 +77,7 @@ public class AutoUpdateConfigChangeListener implements ApplicationContextAware, 
 
         try {
             springValue.update(value);
-            log.info("update spring value success, springValue:{}, new value : {}", springValue,  value);
+            log.info("update spring value success, springValue:{}, new value : {}", springValue, value);
         } catch (Throwable e) {
             log.error("update spring value error, springValue:{}", springValue, e);
         }

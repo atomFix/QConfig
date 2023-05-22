@@ -1,4 +1,4 @@
-package com.qconfig.client.support;
+package com.qconfig.client.spring;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;

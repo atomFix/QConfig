@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:qconfig="http://www.qconfig.com/schema/qconfig"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.qconfig.com/schema/qconfig http://www.qconfig.com/schema/qconfig.xsd">
+
+    <!-- 具体的配置项可以在这里添加 -->
+    <qconfig:config namespaces="com.test" order="0"/>
+
+</beans>

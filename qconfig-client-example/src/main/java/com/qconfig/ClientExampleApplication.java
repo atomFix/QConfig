@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
  * Hello world!
  */
 @SpringBootApplication
-@ImportResource("classpath:spring.xml")
+@ImportResource(value = {"classpath:spring.xml", "classpath:qconfig.xml"})
 public class ClientExampleApplication {
 
     public static void main(String[] args) {
