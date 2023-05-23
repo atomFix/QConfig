@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qconfig.client.enums.ConfigSourceType;
 import com.qconfig.client.model.ConfigChange;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author: liukairong1
  * @date: 2023/05/23/12:41
  */
+@Slf4j
 public class DefaultConfig extends AbstractConfig implements RepositoryChangeListener {
 
     private final String namespace;
@@ -35,7 +37,13 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
     }
 
     private void initialize() {
-        updateConfig(configRepository.getConfig(), configRepository.getSourceType());
+        try {
+            updateConfig(configRepository.getConfig(), configRepository.getSourceType());
+        } catch (Throwable throwable) {
+            log.error("DefaultConfig initialize", throwable);
+        } finally {
+            configRepository.addChangeListener(this);
+        }
     }
 
     private void updateConfig(Properties config, ConfigSourceType configSourceType) {
