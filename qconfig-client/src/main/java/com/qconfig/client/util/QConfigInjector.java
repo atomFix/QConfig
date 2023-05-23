@@ -5,6 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.qconfig.client.config.ConfigPropertySourceFactory;
+import com.qconfig.client.support.*;
 
 /**
  * @Description:
@@ -36,6 +37,9 @@ public class QConfigInjector {
         @Override
         protected void configure() {
             bind(ConfigPropertySourceFactory.class).in(Singleton.class);
+            bind(ConfigFactoryManager.class).to(DefaultConfigFactoryManager.class).in(Singleton.class);
+            bind(ConfigFactory.class).to(DefaultConfigFactory.class).in(Singleton.class);
+            bind(ConfigManager.class).to(DefaultConfigManager.class).in(Singleton.class);
         }
     }
 }

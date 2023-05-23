@@ -1,9 +1,11 @@
 package com.qconfig.client.config;
 
 import com.qconfig.client.Config;
+import com.qconfig.client.ConfigChangeListener;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.util.CollectionUtils;
 
+import javax.swing.*;
 import java.util.Set;
 
 /**
@@ -32,5 +34,9 @@ public class ConfigPropertySource extends EnumerablePropertySource<Config> {
     @Override
     public Object getProperty(String name) {
         return this.source.getProperty(name);
+    }
+
+    public void addListener(ConfigChangeListener listener) {
+        this.source.addChangeListener(listener);
     }
 }

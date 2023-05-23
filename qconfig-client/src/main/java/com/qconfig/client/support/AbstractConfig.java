@@ -16,12 +16,6 @@ public abstract class AbstractConfig implements Config {
 
     private final List<ConfigChangeListener> configChangeListeners = Lists.newCopyOnWriteArrayList();
 
-
-    @Override
-    public Object getProperty(String name) {
-        return null;
-    }
-
     @Override
     public Object getProperty(String name, Object defaultValue) {
         Object val = getProperty(name);

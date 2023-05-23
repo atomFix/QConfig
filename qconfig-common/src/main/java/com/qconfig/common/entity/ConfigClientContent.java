@@ -9,4 +9,6 @@ public class ConfigClientContent {
 
     public static final String QCONFIG_PROPERTY_SOURCE_NAME = "QConfigPropertySource";
 
+    public static final String QCONFIG_BOOTSTRAP_PROPERTY_SOURCE_NAME = "QConfigBootstrapPropertySource";
+
 }
