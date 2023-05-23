@@ -1,6 +1,8 @@
 package com.qconfig.client;
 
 
+import com.qconfig.client.enums.ConfigSourceType;
+
 import java.util.Set;
 import java.util.function.Function;
 
@@ -13,9 +15,9 @@ public interface Config {
 
     Set<String> getPropertyNames();
 
-    Object getProperty(String name);
+    String getProperty(String name);
 
-    Object getProperty(String name, Object defaultValue);
+    String getProperty(String name, String defaultValue);
 
     Byte getByteProperty(String name, Byte defaultValue);
 
@@ -37,5 +39,5 @@ public interface Config {
 
     <T> T getProperty(String name, Function<String, T> function, T defaultValue);
 
-
+    ConfigSourceType getSourceType();
 }

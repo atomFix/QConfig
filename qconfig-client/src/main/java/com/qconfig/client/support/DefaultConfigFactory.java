@@ -7,10 +7,12 @@ import com.qconfig.client.Config;
  * @author: liukairong1
  * @date: 2023/05/23/10:25
  */
-public class DefaultConfigFactory implements ConfigFactory{
+public class DefaultConfigFactory implements ConfigFactory {
 
     @Override
     public Config create(String namespace) {
-        return new DefaultConfig();
+
+
+        return new DefaultConfig(namespace, new RemoteConfigRepository());
     }
 }

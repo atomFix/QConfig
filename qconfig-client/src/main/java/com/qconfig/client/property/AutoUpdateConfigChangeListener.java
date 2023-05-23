@@ -3,6 +3,7 @@ package com.qconfig.client.property;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.qconfig.client.ConfigChangeListener;
+import com.qconfig.client.event.QConfigChangeEvent;
 import com.qconfig.client.model.ConfigChangeEvent;
 import com.qconfig.client.util.SpringInjector;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -25,7 +27,7 @@ import java.util.Set;
  */
 @Component
 @Slf4j
-public class AutoUpdateConfigChangeListener implements ApplicationContextAware, ConfigChangeListener {
+public class AutoUpdateConfigChangeListener implements ApplicationContextAware, ConfigChangeListener, ApplicationListener<QConfigChangeEvent> {
 
     private ConfigurableBeanFactory beanFactory;
 
@@ -96,5 +98,10 @@ public class AutoUpdateConfigChangeListener implements ApplicationContextAware, 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.beanFactory = ((ConfigurableApplicationContext) applicationContext).getBeanFactory();
         this.typeConverter = this.beanFactory.getTypeConverter();
+    }
+
+    @Override
+    public void onApplicationEvent(QConfigChangeEvent event) {
+        this.onChange(event.getConfigChangeEvent());
     }
 }

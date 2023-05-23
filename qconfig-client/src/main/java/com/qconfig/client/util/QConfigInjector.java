@@ -40,6 +40,7 @@ public class QConfigInjector {
             bind(ConfigFactoryManager.class).to(DefaultConfigFactoryManager.class).in(Singleton.class);
             bind(ConfigFactory.class).to(DefaultConfigFactory.class).in(Singleton.class);
             bind(ConfigManager.class).to(DefaultConfigManager.class).in(Singleton.class);
+            bind(PropertiesFactory.class).to(DefaultPropertiesFactory.class).in(Singleton.class);
         }
     }
 }

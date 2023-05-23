@@ -16,6 +16,14 @@ public class ConfigChange {
         this.propertyName = propertyName;
     }
 
+    public ConfigChange(String namespace, String propertyName, String oldKey, String newKey, PropertyChangeType changeType) {
+        this.namespace = namespace;
+        this.propertyName = propertyName;
+        this.oldKey = oldKey;
+        this.newKey = newKey;
+        this.changeType = changeType;
+    }
+
     private final String namespace;
 
     private final String propertyName;
