@@ -19,6 +19,7 @@ public interface Config {
 
     String getProperty(String name, String defaultValue);
 
+
     Byte getByteProperty(String name, Byte defaultValue);
 
     Short getShortProperty(String name, Short defaultValue);
@@ -27,7 +28,7 @@ public interface Config {
 
     Long getLongProperty(String name, Long defaultValue);
 
-    Float getFloatProperty(String name, Long defaultValue);
+    Float getFloatProperty(String name, Float defaultValue);
 
     Double getDoubleProperty(String name, Double defaultValue);
 

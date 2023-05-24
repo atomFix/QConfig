@@ -1,10 +1,13 @@
 package com.qconfig.client.support;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qconfig.client.enums.ConfigSourceType;
 import com.qconfig.client.model.ConfigChange;
+import com.qconfig.common.enums.PropertyChangeType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -150,7 +153,41 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
     private Map<String, ConfigChange> updateAndCalcConfigChange(Properties newProperties, ConfigSourceType configSourceType) {
         List<ConfigChange> configChanges = calcPropertyChanges(namespace, configProperties.get(), newProperties);
 
-        return null;
+        for (ConfigChange configChange : configChanges) {
+            configChange.setOldKey(this.getProperty(configChange.getPropertyName(), configChange.getOldKey()));
+        }
+
+        updateConfig(newProperties, configSourceType);
+        claenCache();
+
+        return fixedConfigChange(configChanges);
+    }
+
+    private Map<String, ConfigChange> fixedConfigChange(List<ConfigChange> configChanges) {
+        ImmutableMap.Builder<String, ConfigChange> actualChanges = new ImmutableMap.Builder<>();
+        for (ConfigChange change : configChanges) {
+            change.setNewKey(this.getProperty(change.getPropertyName(), change.getNewKey()));
+            if (Objects.equals(change.getNewKey(), change.getOldKey())) {
+                break;
+            }
+            switch (change.getChangeType()) {
+                case ADDED:
+                    if (Objects.nonNull(change.getOldKey())) {
+                        change.setChangeType(PropertyChangeType.MODIFIED);
+                    }
+                    actualChanges.put(change.getPropertyName(), change);
+                    break;
+                case DELETED:
+                    if (change.getNewKey() != null) {
+                        change.setChangeType(PropertyChangeType.MODIFIED);
+                    }
+                    actualChanges.put(change.getNamespace(), change);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return actualChanges.build();
     }
 
     private Properties loadFromResource(String namespace) {

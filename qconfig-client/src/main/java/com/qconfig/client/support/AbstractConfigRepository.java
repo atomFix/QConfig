@@ -13,7 +13,7 @@ import java.util.Properties;
  * @date: 2023/05/23/15:22
  */
 @Slf4j
-public abstract class AbstractConfigRepository implements ConfigRepository {
+public abstract class  AbstractConfigRepository implements ConfigRepository {
 
     private List<RepositoryChangeListener> changeListeners = Lists.newCopyOnWriteArrayList();
 
