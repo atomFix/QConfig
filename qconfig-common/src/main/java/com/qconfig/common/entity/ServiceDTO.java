@@ -1,5 +1,12 @@
 package com.qconfig.common.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class ServiceDTO {
 
   private String appName;

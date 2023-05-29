@@ -17,10 +17,11 @@ public abstract class  AbstractConfigRepository implements ConfigRepository {
 
     private List<RepositoryChangeListener> changeListeners = Lists.newCopyOnWriteArrayList();
 
-    private PropertiesFactory propertiesFactory = QConfigInjector.getInstance(PropertiesFactory.class);
+    protected PropertiesFactory propertiesFactory = QConfigInjector.getInstance(PropertiesFactory.class);
 
     protected boolean trySync() {
         try {
+            log.info("{} trySync execute !!!", this.getClass().getName());
             sync();
             return true;
         } catch (Exception e) {

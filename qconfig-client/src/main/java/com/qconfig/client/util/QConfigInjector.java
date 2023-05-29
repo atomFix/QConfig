@@ -5,7 +5,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.qconfig.client.config.ConfigPropertySourceFactory;
+import com.qconfig.client.config.ConfigServerAddressLocator;
 import com.qconfig.client.support.*;
+import com.qconfig.common.http.DefaultHttpClient;
+import com.qconfig.common.http.HttpClient;
 
 /**
  * @Description:
@@ -41,6 +44,8 @@ public class QConfigInjector {
             bind(ConfigFactory.class).to(DefaultConfigFactory.class).in(Singleton.class);
             bind(ConfigManager.class).to(DefaultConfigManager.class).in(Singleton.class);
             bind(PropertiesFactory.class).to(DefaultPropertiesFactory.class).in(Singleton.class);
+            bind(HttpClient.class).to(DefaultHttpClient.class).in(Singleton.class);
+            bind(ConfigServerAddressLocator.class).in(Singleton.class);
         }
     }
 }

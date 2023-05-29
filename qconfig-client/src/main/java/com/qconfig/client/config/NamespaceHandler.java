@@ -54,7 +54,7 @@ public class NamespaceHandler extends NamespaceHandlerSupport {
         }
 
         private String getNamespace(Element element) {
-            String namespace = element.getAttribute("namespace");
+            String namespace = element.getAttribute("namespaces");
             if (Strings.isNullOrEmpty(namespace)) {
                 return "application";
             }

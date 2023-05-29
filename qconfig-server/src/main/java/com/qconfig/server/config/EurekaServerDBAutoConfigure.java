@@ -45,6 +45,17 @@ public class EurekaServerDBAutoConfigure {
     @Value("${eureka.client.service-url.defaultZone}")
     public String serviceUrl;
 
+   private final Retryer<Boolean> retryer = RetryerBuilder.<Boolean>newBuilder()
+            //抛出runtime异常、checked异常时都会重试，但是抛出error不会重试。
+            .retryIfException()
+            //返回false也需要重试
+            .retryIfResult(aBoolean -> Objects.equals(aBoolean, false))
+            //重调策略
+            .withWaitStrategy(WaitStrategies.fixedWait(10, TimeUnit.SECONDS))
+            //尝试次数
+            .withStopStrategy(StopStrategies.stopAfterAttempt(3))
+            .build();
+
     public static final int INIT_VERSION = 0;
 
     @EventListener
@@ -53,16 +64,6 @@ public class EurekaServerDBAutoConfigure {
             logger.warn("eureka.client.service-url.defaultZone is null");
             return;
         }
-        Retryer<Boolean> retryer = RetryerBuilder.<Boolean>newBuilder()
-                //抛出runtime异常、checked异常时都会重试，但是抛出error不会重试。
-                .retryIfException()
-                //返回false也需要重试
-                .retryIfResult(aBoolean -> Objects.equals(aBoolean, false))
-                //重调策略
-                .withWaitStrategy(WaitStrategies.fixedWait(10, TimeUnit.SECONDS))
-                //尝试次数
-                .withStopStrategy(StopStrategies.stopAfterAttempt(3))
-                .build();
 
         try {
             Boolean result = retryer.call(() -> {

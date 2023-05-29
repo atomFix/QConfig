@@ -6,6 +6,6 @@
         http://www.qconfig.com/schema/qconfig http://www.qconfig.com/schema/qconfig.xsd">
 
     <!-- 具体的配置项可以在这里添加 -->
-    <qconfig:config namespaces="com.test" order="0"/>
+    <qconfig:config namespaces="test" order="0"/>
 
 </beans>
